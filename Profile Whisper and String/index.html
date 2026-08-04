@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neil Oliver – Whisper & String</title>
+  <link rel="icon" type="image/ico" href="assets/favicon.ico" sizes="128x128">
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #151b24;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --gold: #f59e0b;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #1e293b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #0f172a;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 20px;
+    }
+
+    .brand-title {
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .tab-nav {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--card);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+
+    .tab-btn:hover { color: white; border-color: var(--accent); }
+    .tab-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fade 0.3s ease; }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    /* Profile Hero */
+    .profile-hero {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      height: 420px;
+      background: url('assets/banner.jpg') center top / cover no-repeat;
+    }
+
+    .profile-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(11,15,20,0.92) 10%, rgba(11,15,20,0.45) 50%, rgba(11,15,20,0.25) 100%);
+    }
+
+    .profile-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 30px;
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--gold);
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+      margin-bottom: 16px;
+    }
+
+    .profile-name { font-size: 2rem; font-weight: 700; color: white; }
+    .profile-role { color: var(--gold); font-weight: 600; margin-bottom: 6px; }
+    .profile-tagline { color: #e2e8f0; font-size: 1.05rem; margin: 6px 0 4px 0; }
+    .profile-email { color: #93c5fd; font-size: 0.95rem; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .card h3 { color: var(--gold); margin-bottom: 12px; font-size: 1.2rem; }
+    .card p, .card li { color: var(--muted); margin-bottom: 10px; }
+    .card ul { padding-left: 20px; }
+
+    .action-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 1rem;
+    }
+    .action-btn:hover { background: var(--accent-hover); }
+
+    /* Media */
+    .media-wrapper {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    #videoPlayer {
+      width: 100%;
+      max-height: 400px;
+      border-radius: 8px;
+      background: #000;
+    }
+
+    .video-list {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .video-btn {
+      background: #1e293b;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 8px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .video-btn:hover,
+    .video-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 600px) {
+      .profile-hero { height: 380px; }
+      .profile-name { font-size: 1.6rem; }
+      #videoPlayer { max-height: 260px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand-title">Neil Oliver – Whisper & String</div>
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('profile', this)">Profile</button>
+    <button class="tab-btn" onclick="switchTab('music', this)">Music</button>
+    <button class="tab-btn" onclick="switchTab('video', this)">Video Promos</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ==================== PROFILE ==================== -->
+  <section id="tab-profile" class="tab-content active">
+    <div class="section-title">
+      <h2>Creator Profile</h2>
+    </div>
+
+    <div class="profile-hero">
+      <div class="profile-content">
+        <img src="assets/Music Profile.jpg" alt="Neil Oliver" class="profile-avatar" onerror="this.src='https://via.placeholder.com/120'">
+        <div class="profile-name">Neil Oliver</div>
+        <div class="profile-role">Creator of Whisper & String</div>
+        <div class="profile-tagline">Songs that linger</div>
+        <div class="profile-email">nieloliver36@gmail.com</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Why this exists</h3>
+      <p>Music has the quiet power to stay with us long after the sound has faded. Whisper & String exists to create original music that lingers — soft, atmospheric, and carefully shaped.</p>
+    </div>
+
+    <div class="card">
+      <h3>How it works</h3>
+      <p>Each track is crafted across a wide range of genres and themes, from classical and jazz to electronic, stories, animals, science, and quiet reflection. The focus is on atmosphere, emotion, and lasting impression.</p>
+    </div>
+
+    <div class="card">
+      <h3>What you get</h3>
+      <ul>
+        <li>Original music across multiple genres</li>
+        <li>Themes including animals, energy, meditation, science & AI, atmosphere, and stories</li>
+        <li>Carefully produced tracks made to linger</li>
+        <li>A growing collection available through the Music Store</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ==================== MUSIC ==================== -->
+  <section id="tab-music" class="tab-content">
+    <div class="section-title">
+      <h2>Music Store</h2>
+    </div>
+
+    <div class="card" style="text-align: center; padding: 50px 30px;">
+      <h3 style="margin-bottom: 16px;">Whisper & String Music</h3>
+      <p style="color: var(--muted); margin-bottom: 28px; max-width: 500px; margin-left: auto; margin-right: auto;">
+        Explore the full collection of original tracks, organised by theme and mood.
+      </p>
+      <a href="music.html" class="action-btn">Enter Music Library →</a>
+    </div>
+  </section>
+
+  <!-- ==================== VIDEO ==================== -->
+  <section id="tab-video" class="tab-content">
+    <h2 class="section-title">Video Promos</h2>
+    <div class="media-wrapper">
+      <video controls id="videoPlayer" playsinline></video>
+      <div class="video-list">
+        <button class="video-btn active" onclick="playVideo(0, this)">Personal Promo</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © Neil Oliver – Whisper & String. All rights reserved.
+</footer>
+
+<script>
+  function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tabId).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Video
+  const videos = ['assets/promo1.mp4'];
+
+  function playVideo(index, btn) {
+    const player = document.getElementById('videoPlayer');
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+    player.src = videos[index];
+    player.load();
+    player.play().catch(err => console.log('Video play error:', err));
+
+    document.querySelectorAll('.video-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const firstVideoBtn = document.querySelector('.video-btn');
+    if (firstVideoBtn) playVideo(0, firstVideoBtn);
+  });
+</script>
+</body>
+</html>
